@@ -24,7 +24,7 @@
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Apple SD Gothic Neo', 'AppleSDGothicNeo', 'Noto Sans KR',
@@ -86,10 +86,10 @@
 
     /* ── Section base ── */
     section {
-      min-height: 100vh; scroll-snap-align: start;
+      min-height: 100vh;
       display: flex; flex-direction: column;
       justify-content: center; align-items: center;
-      padding: 120px 48px 96px;
+      padding: 148px 48px 128px;
       text-align: center; position: relative; overflow: hidden;
     }
 
@@ -635,8 +635,7 @@
     .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
     footer {
-      background: var(--parchment); padding: 36px 48px; text-align: center;
-      scroll-snap-align: none;
+      background: var(--parchment); padding: 48px 48px; text-align: center;
     }
     footer p { font-size: 12px; color: var(--ink-48); }
 
@@ -644,23 +643,110 @@
     @media (max-width: 768px) {
       body { cursor: auto; }
       .cursor-dot, .cursor-ring { display: none; }
-      section { padding: 100px 24px 72px; }
-      .cover__content { padding: 100px 24px 72px; }
-      .about-section { padding-left: 24px; }
-      .about-inner { grid-template-columns: 1fr; }
-      .about-right { display: none; }
-      .timeline::before { left: 64px; }
-      .tl-item { grid-template-columns: 64px 1fr; }
-      .tl-item::before { left: 60px; }
-      .games-grid { grid-template-columns: 1fr; }
-      .ba-grid { grid-template-columns: 1fr; }
-      .pillars { grid-template-columns: 1fr; }
-      .resource-shots { grid-template-columns: 1fr; }
-      .game-shots { grid-template-columns: 1fr; }
-      .publisher-inner { grid-template-columns: 1fr; }
-      .publisher-section { text-align: center; }
-      .publisher-left .stats-row { justify-content: center; }
+
+      section { padding: 110px 22px 100px; }
+      .cover__content { padding: 110px 22px 80px; }
+
+      /* Nav */
+      .g-nav { padding: 0 18px; }
       .g-nav__links { display: none; }
+
+      /* About */
+      .about-section {
+        padding-left: 22px;
+        padding-right: 22px;
+      }
+      .about-inner { grid-template-columns: 1fr; gap: 0; }
+      .about-right { display: none; }
+      .timeline { max-width: 100%; margin-top: 36px; }
+      .timeline::before { left: 60px; }
+      .tl-item { grid-template-columns: 60px 1fr; margin-bottom: 20px; }
+      .tl-item::before { left: 56px; }
+      .tl-year { font-size: 10px; padding-right: 16px; }
+      .tl-event { font-size: 14px; }
+
+      /* Typography */
+      .headline { font-size: clamp(30px, 7.5vw, 48px); margin-bottom: 16px; }
+      .subhead { font-size: clamp(15px, 3.8vw, 20px); margin-bottom: 36px; }
+      .body { font-size: 15px; }
+      .eyebrow { font-size: 11px; margin-bottom: 12px; }
+
+      /* Case intro */
+      .case-num { font-size: clamp(80px, 18vw, 140px); }
+      .case-title { font-size: clamp(24px, 6vw, 36px); }
+      .case-sub { font-size: 15px; }
+
+      /* Stats */
+      .stats-row { gap: 0; flex-wrap: wrap; margin-top: 40px; }
+      .stat { flex: 1 1 120px; padding: 24px 16px; }
+      .stat__num { font-size: clamp(40px, 10vw, 64px); }
+      .stat__label { font-size: 12px; }
+
+      /* Games */
+      .games-grid { grid-template-columns: 1fr; }
+      .game-banner { height: 120px; }
+      .game-title { font-size: 18px; }
+      .game-desc { font-size: 13px; }
+
+      /* QR */
+      .qr-wrap { padding: 12px 16px; }
+
+      /* Before/After */
+      .ba-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 36px; }
+      .ba-card { padding: 28px 24px; }
+      .ba-text { font-size: 14px; }
+
+      /* Process list */
+      .process-list { margin-top: 36px; }
+      .process-item { padding: 18px 20px; gap: 14px; }
+      .process-t { font-size: 14px; }
+
+      /* Shots */
+      .shots-row { margin-top: 32px; gap: 10px; }
+      .shots-row .shot { flex: 1 1 100%; max-width: 100%; }
+      .game-shots { grid-template-columns: 1fr; gap: 10px; }
+      .shot-single { margin-top: 28px; }
+
+      /* Publisher */
+      .publisher-inner { grid-template-columns: 1fr; gap: 40px; }
+      .publisher-section { text-align: center; padding: 110px 22px 100px; }
+      .publisher-left .stats-row { justify-content: center; flex-wrap: wrap; }
+      .publisher-left .stat { padding: 16px 20px; }
+
+      /* Resource shots */
+      .resource-shots { grid-template-columns: 1fr; gap: 10px; margin-top: 28px; }
+
+      /* Pillars */
+      .pillars { grid-template-columns: 1fr; margin-top: 40px; }
+      .pillar { padding: 36px 28px; }
+      .pillar__title { font-size: 18px; }
+      .pillar__desc { font-size: 14px; }
+
+      /* Closing */
+      .closing__h { font-size: clamp(44px, 11vw, 80px); }
+      .closing__sub { font-size: 16px; }
+      .cta-row { flex-direction: column; align-items: center; gap: 10px; }
+      .pill { font-size: 14px; padding: 12px 24px; width: 100%; max-width: 320px; justify-content: center; }
+
+      /* Cover */
+      .cover__name { font-size: clamp(40px, 10vw, 64px); }
+      .cover__tagline { font-size: clamp(16px, 4vw, 22px); margin-bottom: 36px; }
+      .cover__contacts { gap: 16px; }
+      .cover__contacts a { font-size: 13px; }
+
+      /* Big number */
+      .big-number { font-size: clamp(72px, 18vw, 120px); }
+
+      footer { padding: 40px 22px; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 100px 18px 90px; }
+      .stats-row { flex-direction: column; align-items: center; }
+      .stat + .stat::before { display: none; }
+      .stat { width: 100%; padding: 16px 0; border-top: 1px solid rgba(0,0,0,.07); }
+      .stat--dark + .stat--dark { border-top-color: rgba(255,255,255,.08); }
+      .cover__contacts { flex-direction: column; gap: 10px; }
     }
   </style>
 </head>
@@ -796,7 +882,7 @@
 <!-- ════════════════════════════════
      03  MY GAMES
 ════════════════════════════════ -->
-<section class="bg-dark" id="games" style="padding-top:88px;padding-bottom:48px;">
+<section class="bg-dark" id="games">
   <div class="glow glow--blue glow--tl"></div>
 
   <p class="eyebrow eyebrow--dark reveal">My Games</p>
