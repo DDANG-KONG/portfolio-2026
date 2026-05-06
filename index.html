@@ -574,6 +574,20 @@
       gap: 14px; width: 100%; max-width: 760px; margin-top: 36px;
     }
 
+    /* ── Section 11 Publisher 2-col layout ── */
+    .publisher-section { text-align: left; }
+    .publisher-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; width: 100%; max-width: 1040px; align-items: center;
+    }
+    .publisher-left .stats-row { justify-content: flex-start; margin-top: 32px; }
+    .publisher-left .stat + .stat::before { display: none; }
+    .publisher-left .stat { padding: 20px 28px 20px 0; flex: 0 0 auto; }
+    .publisher-right {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .publisher-right .shot img { width: 100%; display: block; }
+
     .resource-shots {
       display: grid; grid-template-columns: repeat(3,1fr);
       gap: 14px; width: 100%; max-width: 960px; margin-top: 36px;
@@ -643,6 +657,9 @@
       .pillars { grid-template-columns: 1fr; }
       .resource-shots { grid-template-columns: 1fr; }
       .game-shots { grid-template-columns: 1fr; }
+      .publisher-inner { grid-template-columns: 1fr; }
+      .publisher-section { text-align: center; }
+      .publisher-left .stats-row { justify-content: center; }
       .g-nav__links { display: none; }
     }
   </style>
@@ -987,29 +1004,31 @@
 <!-- ════════════════════════════════
      11  PUBLISHER
 ════════════════════════════════ -->
-<section class="bg-white">
-  <p class="eyebrow eyebrow--light reveal">Background</p>
-  <h2 class="headline headline--light reveal reveal-d1">해외 퍼블리셔와<br>출시를 준비하다</h2>
-  <p class="body body--light reveal reveal-d2" style="text-align:center;">&lt;파티랏슈!!&gt;는 99명의 동료를 수집하며 스토리를 클리어하는 동료 수집형 RPG.<br>2018년부터 4년간 1인 제작 후 2022년 출시. 해외 퍼블리셔 Crest Inc.(현 HIKE Inc.)로부터<br>5개 국어 퍼블리싱 제안을 받았고, 리소스 체계화가 선결 과제였습니다.</p>
-
-  <div class="stats-row reveal reveal-d3" style="margin-top:40px;">
-    <div class="stat">
-      <p class="stat__num" data-count="5" data-suffix="">5</p>
-      <p class="stat__label stat__label--light">출시 국어</p>
+<section class="bg-white publisher-section">
+  <div class="publisher-inner">
+    <div class="publisher-left">
+      <p class="eyebrow eyebrow--light reveal">Background</p>
+      <h2 class="headline headline--light reveal reveal-d1">해외 퍼블리셔와<br>출시를 준비하다</h2>
+      <p class="body body--light reveal reveal-d2">&lt;파티랏슈!!&gt;는 99명의 동료를 수집하며 스토리를 클리어하는 동료 수집형 RPG.<br>2018년부터 4년간 1인 제작 후 2022년 출시. 해외 퍼블리셔 Crest Inc.(현 HIKE Inc.)로부터 5개 국어 퍼블리싱 제안을 받았고, 리소스 체계화가 선결 과제였습니다.</p>
+      <div class="stats-row reveal reveal-d3">
+        <div class="stat">
+          <p class="stat__num" data-count="5" data-suffix="">5</p>
+          <p class="stat__label stat__label--light">출시 국어</p>
+        </div>
+        <div class="stat">
+          <p class="stat__num" data-count="99" data-suffix="">99</p>
+          <p class="stat__label stat__label--light">수집 동료</p>
+        </div>
+        <div class="stat">
+          <p class="stat__num" data-count="20" data-suffix="">20</p>
+          <p class="stat__label stat__label--light">챕터</p>
+        </div>
+      </div>
     </div>
-    <div class="stat stat--dark">
-      <p class="stat__num" data-count="99" data-suffix="">99</p>
-      <p class="stat__label stat__label--light">수집 동료</p>
+    <div class="publisher-right reveal reveal-d3">
+      <div class="shot"><img src="./assets/slide11_img01.png" alt="파티랏슈!! 인게임 캐릭터"></div>
+      <div class="shot"><img src="./assets/slide11_img02.png" alt="파티랏슈!! 인게임 맵"></div>
     </div>
-    <div class="stat stat--dark">
-      <p class="stat__num" data-count="20" data-suffix="">20</p>
-      <p class="stat__label stat__label--light">챕터</p>
-    </div>
-  </div>
-
-  <div class="game-shots reveal reveal-d4">
-    <div class="shot"><img src="./assets/slide11_img01.png" alt="파티랏슈!! 인게임 캐릭터"></div>
-    <div class="shot"><img src="./assets/slide11_img02.png" alt="파티랏슈!! 인게임 맵"></div>
   </div>
 </section>
 
