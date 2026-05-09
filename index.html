@@ -265,7 +265,7 @@
       display: flex; gap: 28px; justify-content: center; flex-wrap: wrap;
     }
     .cover__contacts a {
-      font-size: 14px; color: rgba(255,255,255,.32); text-decoration: none;
+      font-size: 14px; color: rgba(255,255,255,.50); text-decoration: none;
       letter-spacing: -.2px; transition: color .2s; cursor: none;
     }
     .cover__contacts a:hover { color: rgba(255,255,255,.72); }
@@ -360,12 +360,17 @@
     #about { background: transparent; }
     #about .headline--light { color: var(--on-dark); }
     #about .tl-event { color: rgba(255,255,255,.82); }
+    #about .tl-event--highlight { color: var(--primary-dark); }
     #about .tl-item::before {
       background: #18181c; border-color: rgba(255,255,255,.18);
     }
+    #about .tl-item--highlight::before {
+      background: var(--primary-dark); border-color: var(--primary-dark);
+      box-shadow: 0 0 0 4px rgba(41,151,255,.2);
+    }
     #about .timeline::before {
       background: linear-gradient(to bottom,
-        transparent, rgba(255,255,255,.15) 10%, rgba(255,255,255,.15) 90%, transparent);
+        transparent, rgba(255,255,255,.25) 10%, rgba(255,255,255,.25) 90%, transparent);
     }
 
     /* ════════════════════════════
@@ -921,7 +926,7 @@
      02  ABOUT ME
 ════════════════════════════════ -->
 <section class="about-section" id="about">
-  <p class="eyebrow eyebrow--light reveal">About Me</p>
+  <p class="eyebrow eyebrow--dark reveal">About Me</p>
   <h2 class="headline headline--light reveal reveal-d1">걸어온 길</h2>
 
   <div class="about-inner">
@@ -1111,11 +1116,11 @@
       <p class="stat__num" data-count="120" data-suffix="+">120+</p>
       <p class="stat__label stat__label--light">팀원</p>
     </div>
-    <div class="stat stat--dark">
+    <div class="stat">
       <p class="stat__num" data-count="19" data-suffix="">19</p>
       <p class="stat__label stat__label--light">독립 스트림 빌드</p>
     </div>
-    <div class="stat stat--dark">
+    <div class="stat">
       <p class="stat__num" data-count="3000" data-suffix="+">3,000+</p>
       <p class="stat__label stat__label--light">리소스 파일 검수</p>
     </div>
@@ -1284,7 +1289,7 @@
   <p class="body body--light reveal reveal-d2" style="text-align:center;">L10N 작업이 필요한 리소스를 분리하여 적용 대상 빌드를 세분화.<br>총 <strong>3만 줄</strong>의 인게임 텍스트를 포함한 리소스를 분리 추출·분류·관리.</p>
 
   <div class="process-list reveal reveal-d3">
-    <div class="process-item process-item--light" style="border-left-color:var(--primary);">
+    <div class="process-item process-item--light">
       <span class="process-n process-n--light">01</span>
       <span class="process-t process-t--light">게임 기획 문서 정리</span>
     </div>
