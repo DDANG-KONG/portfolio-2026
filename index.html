@@ -356,10 +356,8 @@
     .tl-event--highlight { font-weight: 700; color: var(--primary); }
     .tl-event + .tl-event { margin-top: 4px; }
 
-    /* About section — dark overlay so Spline shows through */
-    #about {
-      background: rgba(8,8,12,0.84);
-    }
+    /* About section — background driven by JS scroll, starts transparent */
+    #about { background: transparent; }
     #about .headline--light { color: var(--on-dark); }
     #about .tl-event { color: rgba(255,255,255,.82); }
     #about .tl-item::before {
@@ -1016,7 +1014,7 @@
   <p class="subhead subhead--dark reveal reveal-d2" style="font-size:clamp(15px,1.8vw,18px);margin-bottom:20px;">'하나의 프로덕트'를 끝내는 책임감과 끈기,<br>그 경험적 기반이 저를 만들었습니다.</p>
 
   <div class="game-banner reveal reveal-d2">
-    <img src="./assets/slide02_img33.png" alt="파티랏슈!! 키아트">
+    <img src="./assets/slide02_img33.png" alt="파티랏슈!! 키아트" style="object-position:center 72%;">
   </div>
 
   <div class="games-grid reveal reveal-d3">
@@ -1558,19 +1556,30 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
   document.querySelectorAll('section:not(.cover)').forEach(s => sObs.observe(s));
 })();
 
-/* ── Spline fade: visible during Cover+About, fades out entering Games ── */
+/* ── About bg: fades in as Cover→About, to opaque as About→Games ── */
 (function() {
-  const splineEl = document.querySelector('.cover__spline');
-  const gamesEl  = document.getElementById('games');
-  if (!splineEl || !gamesEl) return;
-  function updateSpline() {
+  const aboutEl = document.getElementById('about');
+  const gamesEl = document.getElementById('games');
+  if (!aboutEl || !gamesEl) return;
+
+  function updateAboutBg() {
+    const vh       = window.innerHeight;
+    const aboutTop = aboutEl.getBoundingClientRect().top;
     const gamesTop = gamesEl.getBoundingClientRect().top;
-    const vh = window.innerHeight;
-    const t = Math.max(0, Math.min(1, (gamesTop - vh * 0.25) / (vh * 0.75)));
-    splineEl.style.opacity = t;
+
+    /* Phase 1: About entering from below — 0 → 0.84 */
+    const enterP = 1 - Math.max(0, Math.min(1, aboutTop / vh));
+    const phase1 = enterP * 0.84;
+
+    /* Phase 2: Games entering — push remaining 0.84 → 1.0 */
+    const exitP  = 1 - Math.max(0, Math.min(1, (gamesTop - vh * 0.25) / (vh * 0.75)));
+    const phase2 = exitP * 0.16;
+
+    aboutEl.style.background = `rgba(8,8,12,${Math.min(1, phase1 + phase2).toFixed(3)})`;
   }
-  window.addEventListener('scroll', updateSpline, { passive: true });
-  updateSpline();
+
+  window.addEventListener('scroll', updateAboutBg, { passive: true });
+  updateAboutBg();
 })();
 
 /* ── JS Smooth Scroll (더 안정적인 앵커 이동) ── */
