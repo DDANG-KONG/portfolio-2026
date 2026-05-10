@@ -821,12 +821,69 @@
     /* Scroll offset for fixed nav */
     section { scroll-margin-top: 44px; }
 
-    /* ── Scroll Progress Bar ── */
-    .scroll-progress {
-      position: fixed; top: 44px; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 55%, #a78bfa 100%);
-      transform-origin: left center; transform: scaleX(0);
-      z-index: 998; will-change: transform; pointer-events: none;
+    /* ── Slime Progress Indicator ── */
+    #slimeProg {
+      position: fixed; top: 43px; left: 0;
+      z-index: 1000; pointer-events: none; will-change: transform;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    /* subtle track */
+    #slimeProg::before {
+      content: ''; position: fixed; top: 55px; left: 0; right: 0; height: 1px;
+      background: rgba(41,151,255,.12); pointer-events: none;
+    }
+    /* pixel art: 1 unit = 3px; element is 1 unit, all pixels as box-shadow */
+    .slime-px {
+      width: 3px; height: 3px;
+      background: transparent;
+      animation: slimeA .55s steps(1, end) infinite alternate;
+      transform-origin: bottom center;
+    }
+    /* Pose A – normal (6w × 6h grid, pixel size 3px)
+       Colors: B=#2997ff  H=#72c3ff  E=#0d2744  S=#c8e8ff */
+    @keyframes slimeA {
+      0% { box-shadow:
+        /* row0: top dome */
+        9px 0 0 0 #2997ff,  12px 0 0 0 #2997ff,
+        /* row1 */
+        6px 3px 0 0 #2997ff, 9px 3px 0 0 #72c3ff, 12px 3px 0 0 #72c3ff, 15px 3px 0 0 #2997ff,
+        /* row2: eyes */
+        3px 6px 0 0 #2997ff, 6px 6px 0 0 #0d2744, 9px 6px 0 0 #2997ff, 12px 6px 0 0 #2997ff, 15px 6px 0 0 #0d2744, 18px 6px 0 0 #2997ff,
+        /* row3 */
+        3px 9px 0 0 #2997ff, 6px 9px 0 0 #2997ff, 9px 9px 0 0 #2997ff, 12px 9px 0 0 #2997ff, 15px 9px 0 0 #2997ff, 18px 9px 0 0 #2997ff,
+        /* row4 */
+        6px 12px 0 0 #2997ff, 9px 12px 0 0 #2997ff, 12px 12px 0 0 #2997ff, 15px 12px 0 0 #2997ff,
+        /* row5: drip */
+        9px 15px 0 0 #2997ff, 12px 15px 0 0 #2997ff,
+        /* eye shine */
+        6px 6px 0 0 #c8e8ff;
+      }
+      /* Pose B – squished wide (8w × 4h) */
+      100% { box-shadow:
+        /* row0 */
+        6px 0 0 0 #2997ff, 9px 0 0 0 #72c3ff, 12px 0 0 0 #72c3ff, 15px 0 0 0 #2997ff,
+        /* row1: eyes */
+        3px 3px 0 0 #2997ff, 6px 3px 0 0 #0d2744, 9px 3px 0 0 #2997ff, 12px 3px 0 0 #2997ff, 15px 3px 0 0 #0d2744, 18px 3px 0 0 #2997ff,
+        /* row2 */
+        3px 6px 0 0 #2997ff, 6px 6px 0 0 #2997ff, 9px 6px 0 0 #2997ff, 12px 6px 0 0 #2997ff, 15px 6px 0 0 #2997ff, 18px 6px 0 0 #2997ff,
+        /* row3: bottom flat */
+        6px 9px 0 0 #2997ff, 9px 9px 0 0 #2997ff, 12px 9px 0 0 #2997ff, 15px 9px 0 0 #2997ff,
+        /* drip (retracted) */
+        9px 9px 0 0 #1a7fd4, 12px 9px 0 0 #1a7fd4,
+        /* eye shine */
+        6px 3px 0 0 #c8e8ff;
+      }
+    }
+    /* glow pulse synced to squish */
+    .slime-glow {
+      width: 22px; height: 4px; margin-top: -1px;
+      border-radius: 50%;
+      background: rgba(41,151,255,.0);
+      animation: slimeGlow .55s steps(1, end) infinite alternate;
+    }
+    @keyframes slimeGlow {
+      0%   { background: rgba(41,151,255,.15); transform: scaleX(.7); }
+      100% { background: rgba(41,151,255,.30); transform: scaleX(1.2); }
     }
 
     /* ── Nav active section indicator ── */
@@ -920,7 +977,10 @@
 <body>
 
 <!-- Scroll Progress Bar -->
-<div class="scroll-progress" id="scrollProgress"></div>
+<div id="slimeProg" aria-hidden="true">
+  <div class="slime-px"></div>
+  <div class="slime-glow"></div>
+</div>
 
 <!-- Custom Cursor -->
 <div class="cursor-dot" id="cursorDot"></div>
@@ -1653,13 +1713,20 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-/* ── Scroll Progress Bar ── */
-const progressBar = document.getElementById('scrollProgress');
-function updateProgress() {
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  progressBar.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
-}
-window.addEventListener('scroll', updateProgress, { passive: true });
+/* ── Slime Progress Indicator ── */
+(function() {
+  const slime = document.getElementById('slimeProg');
+  if (!slime) return;
+  const W = 24;
+  function update() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const p   = max > 0 ? Math.max(0, Math.min(1, window.scrollY / max)) : 0;
+    slime.style.transform = `translateX(${(p * (window.innerWidth - W)).toFixed(1)}px)`;
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+})();
 
 /* ── Active Nav Section ── */
 (function() {
