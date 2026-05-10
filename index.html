@@ -821,70 +821,42 @@
     /* Scroll offset for fixed nav */
     section { scroll-margin-top: 44px; }
 
-    /* ── Slime Progress Indicator ── */
+    /* ── Scroll Progress Bar ── */
+    .scroll-progress {
+      position: fixed; top: 44px; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 55%, #a78bfa 100%);
+      transform-origin: left center; transform: scaleX(0);
+      z-index: 998; will-change: transform; pointer-events: none;
+    }
+
+    /* ── DQ Slime Progress Character ── */
     #slimeProg {
-      position: fixed; top: 43px; left: 0;
+      position: fixed; top: 16px; left: 0;
       z-index: 1000; pointer-events: none; will-change: transform;
-      display: flex; flex-direction: column; align-items: center;
     }
-    /* subtle track */
-    #slimeProg::before {
-      content: ''; position: fixed; top: 55px; left: 0; right: 0; height: 1px;
-      background: rgba(41,151,255,.12); pointer-events: none;
+    .slime-svg {
+      display: block;
+      /* 2-frame pixel-art style squish */
+      animation: dqSquish .55s steps(2, end) infinite alternate,
+                 dqBlink  3.8s ease-in-out infinite;
+      transform-origin: 15px 32px; /* bottom center of 30×34 viewBox */
+      transform-box: fill-box;
+      filter: drop-shadow(0 3px 8px rgba(32,128,216,.6));
     }
-    /* pixel art: 1 unit = 3px; element is 1 unit, all pixels as box-shadow */
-    .slime-px {
-      width: 3px; height: 3px;
-      background: transparent;
-      animation: slimeA .55s steps(1, end) infinite alternate;
-      transform-origin: bottom center;
+    @keyframes dqSquish {
+      0%   { transform: scaleX(1)    scaleY(1); }
+      100% { transform: scaleX(1.22) scaleY(0.80); }
     }
-    /* Pose A – normal (6w × 6h grid, pixel size 3px)
-       Colors: B=#2997ff  H=#72c3ff  E=#0d2744  S=#c8e8ff */
-    @keyframes slimeA {
-      0% { box-shadow:
-        /* row0: top dome */
-        9px 0 0 0 #2997ff,  12px 0 0 0 #2997ff,
-        /* row1 */
-        6px 3px 0 0 #2997ff, 9px 3px 0 0 #72c3ff, 12px 3px 0 0 #72c3ff, 15px 3px 0 0 #2997ff,
-        /* row2: eyes */
-        3px 6px 0 0 #2997ff, 6px 6px 0 0 #0d2744, 9px 6px 0 0 #2997ff, 12px 6px 0 0 #2997ff, 15px 6px 0 0 #0d2744, 18px 6px 0 0 #2997ff,
-        /* row3 */
-        3px 9px 0 0 #2997ff, 6px 9px 0 0 #2997ff, 9px 9px 0 0 #2997ff, 12px 9px 0 0 #2997ff, 15px 9px 0 0 #2997ff, 18px 9px 0 0 #2997ff,
-        /* row4 */
-        6px 12px 0 0 #2997ff, 9px 12px 0 0 #2997ff, 12px 12px 0 0 #2997ff, 15px 12px 0 0 #2997ff,
-        /* row5: drip */
-        9px 15px 0 0 #2997ff, 12px 15px 0 0 #2997ff,
-        /* eye shine */
-        6px 6px 0 0 #c8e8ff;
-      }
-      /* Pose B – squished wide (8w × 4h) */
-      100% { box-shadow:
-        /* row0 */
-        6px 0 0 0 #2997ff, 9px 0 0 0 #72c3ff, 12px 0 0 0 #72c3ff, 15px 0 0 0 #2997ff,
-        /* row1: eyes */
-        3px 3px 0 0 #2997ff, 6px 3px 0 0 #0d2744, 9px 3px 0 0 #2997ff, 12px 3px 0 0 #2997ff, 15px 3px 0 0 #0d2744, 18px 3px 0 0 #2997ff,
-        /* row2 */
-        3px 6px 0 0 #2997ff, 6px 6px 0 0 #2997ff, 9px 6px 0 0 #2997ff, 12px 6px 0 0 #2997ff, 15px 6px 0 0 #2997ff, 18px 6px 0 0 #2997ff,
-        /* row3: bottom flat */
-        6px 9px 0 0 #2997ff, 9px 9px 0 0 #2997ff, 12px 9px 0 0 #2997ff, 15px 9px 0 0 #2997ff,
-        /* drip (retracted) */
-        9px 9px 0 0 #1a7fd4, 12px 9px 0 0 #1a7fd4,
-        /* eye shine */
-        6px 3px 0 0 #c8e8ff;
-      }
+    .slime-eye-l, .slime-eye-r {
+      transform-origin: center;
+      transform-box: fill-box;
     }
-    /* glow pulse synced to squish */
-    .slime-glow {
-      width: 22px; height: 4px; margin-top: -1px;
-      border-radius: 50%;
-      background: rgba(41,151,255,.0);
-      animation: slimeGlow .55s steps(1, end) infinite alternate;
+    @keyframes dqBlink {
+      0%, 88%, 100% { transform: scaleY(1); }
+      92%           { transform: scaleY(0.08); }
     }
-    @keyframes slimeGlow {
-      0%   { background: rgba(41,151,255,.15); transform: scaleX(.7); }
-      100% { background: rgba(41,151,255,.30); transform: scaleX(1.2); }
-    }
+    .slime-eye-l { animation: dqBlink 3.8s ease-in-out infinite; }
+    .slime-eye-r { animation: dqBlink 3.8s ease-in-out .05s infinite; }
 
     /* ── Nav active section indicator ── */
     .g-nav__links a { position: relative; }
@@ -977,9 +949,25 @@
 <body>
 
 <!-- Scroll Progress Bar -->
+<div class="scroll-progress" id="scrollProgress"></div>
 <div id="slimeProg" aria-hidden="true">
-  <div class="slime-px"></div>
-  <div class="slime-glow"></div>
+  <svg class="slime-svg" viewBox="0 0 30 34" width="30" height="34" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="sg" cx="35%" cy="28%" r="65%">
+        <stop offset="0%" stop-color="#80d4ff"/>
+        <stop offset="45%" stop-color="#2080d8"/>
+        <stop offset="100%" stop-color="#0f52a0"/>
+      </radialGradient>
+    </defs>
+    <path d="M15,1 C19,0 27,6 27,15 C27,24 22,30 15,30 C8,30 3,24 3,15 C3,6 11,2 15,1 Z" fill="url(#sg)"/>
+    <ellipse cx="10" cy="11" rx="3.5" ry="2" fill="rgba(255,255,255,0.45)" transform="rotate(-25 10 11)"/>
+    <circle class="slime-eye-l" cx="10" cy="19" r="3" fill="#e8f4ff"/>
+    <circle class="slime-eye-l" cx="10.5" cy="19.5" r="1.4" fill="#061020"/>
+    <circle class="slime-eye-r" cx="20" cy="19" r="3" fill="#e8f4ff"/>
+    <circle class="slime-eye-r" cx="20.5" cy="19.5" r="1.4" fill="#061020"/>
+    <path d="M10,24 Q15,28 20,24" stroke="#061020" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="15" cy="29.5" rx="2.5" ry="1.5" fill="#1060b0" opacity=".8"/>
+  </svg>
 </div>
 
 <!-- Custom Cursor -->
@@ -1713,15 +1701,16 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-/* ── Slime Progress Indicator ── */
+/* ── Scroll Progress Bar + Slime ── */
 (function() {
-  const slime = document.getElementById('slimeProg');
-  if (!slime) return;
-  const W = 24;
+  const progressBar = document.getElementById('scrollProgress');
+  const slimeEl     = document.getElementById('slimeProg');
+  const SLIME_W = 30;
   function update() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const p   = max > 0 ? Math.max(0, Math.min(1, window.scrollY / max)) : 0;
-    slime.style.transform = `translateX(${(p * (window.innerWidth - W)).toFixed(1)}px)`;
+    if (progressBar) progressBar.style.transform = `scaleX(${p})`;
+    if (slimeEl)     slimeEl.style.transform = `translateX(${(p * (window.innerWidth - SLIME_W)).toFixed(1)}px)`;
   }
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update, { passive: true });
