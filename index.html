@@ -1634,7 +1634,7 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
     const vh      = window.innerHeight;
     const top     = case1El.getBoundingClientRect().top;
     const progress = Math.max(0, Math.min(1, (vh - top) / vh));
-    bgImg.style.opacity = progress.toFixed(3);
+    bgImg.style.opacity = (progress * 0.20).toFixed(3);
   }
   window.addEventListener('scroll', update, { passive: true });
   update();
