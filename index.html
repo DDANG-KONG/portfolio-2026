@@ -1674,7 +1674,7 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
       }
     });
   }, { threshold: 0.06 });
-  document.querySelectorAll('section:not(.cover)').forEach(s => sObs.observe(s));
+  document.querySelectorAll('section:not(.cover):not(#closing)').forEach(s => sObs.observe(s));
 })();
 
 /* ── Spline fade: opacity 1→0 linearly as scroll reaches Games section ── */
@@ -1718,18 +1718,33 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
 /* ── Summary → Closing: scroll-driven fade-to-black ── */
 (function() {
   const summaryEl = document.getElementById('summary');
-  if (!summaryEl) return;
+  const closingEl = document.getElementById('closing');
+  if (!summaryEl || !closingEl) return;
 
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:absolute;inset:0;background:#000;opacity:0;z-index:5;pointer-events:none;';
-  summaryEl.appendChild(overlay);
+  const veil = document.createElement('div');
+  veil.style.cssText = 'position:fixed;inset:0;background:#000;opacity:0;z-index:899;pointer-events:none;will-change:opacity;';
+  document.body.appendChild(veil);
+
+  let phase2Done = false;
 
   function update() {
     const vh     = window.innerHeight;
-    const bottom = summaryEl.getBoundingClientRect().bottom;
-    /* fade: 0 when bottom >= 65% vh, 1 when bottom reaches 0 */
-    const p = Math.max(0, Math.min(1, 1 - bottom / (vh * 0.65)));
-    overlay.style.opacity = p.toFixed(3);
+    const sumBot = summaryEl.getBoundingClientRect().bottom;
+
+    if (sumBot > 0) {
+      phase2Done = false;
+      veil.style.transition = 'none';
+      const p = Math.max(0, Math.min(1, 1 - sumBot / vh));
+      veil.style.opacity = p.toFixed(3);
+      if (p > 0.5) closingEl.classList.add('s-in');
+    } else if (!phase2Done) {
+      closingEl.classList.add('s-in');
+      phase2Done = true;
+      requestAnimationFrame(() => {
+        veil.style.transition = 'opacity 1.0s cubic-bezier(.22,1,.36,1)';
+        veil.style.opacity = '0';
+      });
+    }
   }
 
   window.addEventListener('scroll', update, { passive: true });
