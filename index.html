@@ -940,14 +940,7 @@
       transform: translateY(0);
     }
 
-    /* Summary → Closing: gradient blend at section bottom */
-    #summary::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 220px;
-      background: linear-gradient(to bottom, transparent, var(--surface-black));
-      z-index: 1; pointer-events: none;
-    }
+    /* Summary → Closing: JS scroll-driven fade handled in script */
 
     /* ── Ground Rule: landscape image stacked above ba-grid ── */
     .groundrule-row {
@@ -1499,7 +1492,7 @@
   <div class="glow glow--purple glow--br"></div>
 
   <p class="eyebrow eyebrow--dark reveal">그래서 저는</p>
-  <h2 class="headline headline--dark reveal reveal-d1">세 가지 경험이<br>PM으로서의 기반입니다.</h2>
+  <h2 class="headline headline--dark reveal reveal-d1">세 가지 경험이<br>인사이트의 기반입니다</h2>
 
   <div class="pillars">
     <div class="pillar reveal reveal-d2">
@@ -1520,7 +1513,7 @@
       <img class="pillar__img" src="./assets/slide15_img06.png" alt="">
       <p class="pillar__since">현업 AI 자동화 도입</p>
       <h3 class="pillar__title">AI 자동화 기술<br>역량까지</h3>
-      <p class="pillar__desc">적극적인 기술적 개선을 추구하며, 새 기술을 배우고 써보는 데에 앞장섭니다.</p>
+      <p class="pillar__desc">팀의 적극적인 기술적 개선을 추구하며, 새로 익히는 것에 앞장섭니다.</p>
       <span class="pillar__tag">→ 기술 주도 개선</span>
     </div>
   </div>
@@ -1719,6 +1712,28 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
     bgImg.style.opacity = (progress * 0.20).toFixed(3);
   }
   window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+/* ── Summary → Closing: scroll-driven fade-to-black ── */
+(function() {
+  const summaryEl = document.getElementById('summary');
+  if (!summaryEl) return;
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:absolute;inset:0;background:#000;opacity:0;z-index:5;pointer-events:none;';
+  summaryEl.appendChild(overlay);
+
+  function update() {
+    const vh     = window.innerHeight;
+    const bottom = summaryEl.getBoundingClientRect().bottom;
+    /* fade: 0 when bottom >= 65% vh, 1 when bottom reaches 0 */
+    const p = Math.max(0, Math.min(1, 1 - bottom / (vh * 0.65)));
+    overlay.style.opacity = p.toFixed(3);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
   update();
 })();
 
