@@ -895,27 +895,19 @@
       transform: translateY(0);
     }
 
-    /* ── Ground Rule: tilted gallery + ba-grid side by side ── */
+    /* ── Ground Rule: landscape image stacked above ba-grid ── */
     .groundrule-row {
-      display: flex; gap: 52px; align-items: center;
-      width: 100%; max-width: 980px; margin-top: 48px;
+      display: flex; flex-direction: column; gap: 32px; align-items: stretch;
+      width: 100%; max-width: 760px; margin-top: 48px;
     }
-    .groundrule-gallery { flex: 0 0 240px; }
-    .groundrule-img {
+    .groundrule-img-wide {
       width: 100%; display: block; border-radius: 14px;
-      transform: rotate(-5deg) translateY(-6px);
-      box-shadow: -10px 18px 48px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08);
-      transition: transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s;
-    }
-    .groundrule-gallery:hover .groundrule-img {
-      transform: rotate(-2deg) translateY(-2px) scale(1.03);
-      box-shadow: -16px 26px 60px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.12);
+      box-shadow: 0 12px 48px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08);
     }
     .groundrule-row .ba-grid { margin-top: 0; flex: 1; max-width: none; }
 
     @media (max-width: 768px) {
-      .groundrule-row { flex-direction: column; gap: 28px; }
-      .groundrule-gallery { width: 180px; align-self: center; }
+      .groundrule-row { gap: 24px; }
     }
 
     /* iOS Safari: prevent URL-bar resize from clipping cover */
@@ -1074,7 +1066,7 @@
      03  MY GAMES
 ════════════════════════════════ -->
 <section id="games">
-  <div class="glow glow--blue glow--tl"></div>
+  <div class="glow glow--blue" style="width:700px;height:700px;top:0;left:-250px;"></div>
 
   <p class="eyebrow eyebrow--dark reveal">My Games</p>
   <h2 class="headline headline--dark reveal reveal-d1" style="margin-bottom:12px;">10대부터 완성한 게임들</h2>
@@ -1227,9 +1219,7 @@
   <p class="subhead subhead--dark reveal reveal-d2" style="margin-bottom:0;">스펙 취합·개발 마감일을 릴리스 날짜로부터 역산,<br>별도로 분리함으로 리스크 관리 프로세스 개선</p>
 
   <div class="groundrule-row reveal reveal-d3">
-    <div class="groundrule-gallery">
-      <img src="./assets/slide07_img06.png" alt="그라운드 룰 개편 결과" class="groundrule-img">
-    </div>
+    <img src="./assets/Automation data.png" alt="자동화 데이터" class="groundrule-img-wide">
     <div class="ba-grid">
       <div class="ba-card ba-before">
         <span class="ba-icon">⚠️</span>
@@ -1365,19 +1355,8 @@
     </div>
   </div>
 
-  <div class="resource-shots reveal reveal-d4">
-    <div>
-      <div class="shot"><img src="./assets/slide12_img02.png" alt="기획 문서"></div>
-      <p class="res-label">기획 문서</p>
-    </div>
-    <div>
-      <div class="shot"><img src="./assets/slide12_img03.png" alt="아트 리소스"></div>
-      <p class="res-label">아트 리소스</p>
-    </div>
-    <div>
-      <div class="shot"><img src="./assets/slide12_img04.png" alt="텍스트 데이터"></div>
-      <p class="res-label">텍스트 데이터</p>
-    </div>
+  <div class="reveal reveal-d4" style="margin-top:40px;width:100%;max-width:860px;">
+    <img src="./assets/partyrush data.png" alt="파티랏슈 데이터" style="width:100%;display:block;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.08);">
   </div>
 </section>
 
@@ -1410,11 +1389,7 @@
     </div>
   </div>
 
-  <div class="shots-row reveal reveal-d4">
-    <div class="shot" style="max-width:480px;flex:1 1 380px;">
-      <img src="./assets/slide13_img02.png" alt="국가별 프로젝트 폴더 구조">
-    </div>
-  </div>
+
 </section>
 
 <!-- ════════════════════════════════
@@ -1640,6 +1615,23 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
     gamesY = gamesEl.getBoundingClientRect().top + window.scrollY;
     update();
   }, { passive: true });
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+/* ── Case1 (Blade & Soul) bg: scroll-driven fade in as section enters ── */
+(function() {
+  const case1El = document.getElementById('case1');
+  if (!case1El) return;
+  const bgImg = case1El.querySelector('.bg-img');
+  if (!bgImg) return;
+  bgImg.style.opacity = '0';
+  function update() {
+    const vh      = window.innerHeight;
+    const top     = case1El.getBoundingClientRect().top;
+    const progress = Math.max(0, Math.min(1, (vh - top) / vh));
+    bgImg.style.opacity = progress.toFixed(3);
+  }
   window.addEventListener('scroll', update, { passive: true });
   update();
 })();
