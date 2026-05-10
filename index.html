@@ -328,6 +328,21 @@
     }
     .about-badge__sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
+    /* 수상내역 패널 */
+    .award-panel {
+      background: var(--tile-1); border-radius: 14px;
+      padding: 24px 28px; border: 1px solid rgba(255,255,255,.07);
+    }
+    .award-panel__label {
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--primary-dark); margin-bottom: 20px;
+    }
+    .award-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 18px; }
+    .award-item { display: flex; gap: 16px; align-items: flex-start; }
+    .award-year { font-size: 12px; font-weight: 700; color: var(--primary-dark); min-width: 36px; padding-top: 3px; }
+    .award-name { font-size: 16px; font-weight: 700; color: var(--on-dark); letter-spacing: -.03em; line-height: 1.2; }
+    .award-event { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
     /* Timeline */
     .timeline { width: 100%; max-width: 640px; margin-top: 48px; position: relative; }
     .timeline::before {
@@ -1083,7 +1098,6 @@
         <span class="tl-year">2021</span>
         <div class="tl-body">
           <p class="tl-event">BIC Festival 2021 전시작 선정 (RAISE HELL)</p>
-          <p class="tl-event">GIGDC 2021 한국게임개발자협회장상 수상</p>
         </div>
       </div>
       <div class="tl-item">
@@ -1104,9 +1118,9 @@
       <div class="tl-item tl-item--highlight">
         <span class="tl-year">2025</span>
         <div class="tl-body">
-          <p class="tl-event">G-STAR 2025 전시 총괄 (한국경제TV 우수작품상)</p>
+          <p class="tl-event">G-STAR 2025 전시 총괄</p>
           <p class="tl-event">Zero-base PM 스쿨 43기 수료</p>
-          <p class="tl-event tl-event--highlight">NC 'Blade &amp; Soul' 개발PM 입사 (12월)</p>
+          <p class="tl-event tl-event--highlight">NC 'Blade &amp; Soul' 개발PM 입사</p>
         </div>
       </div>
       <div class="tl-item">
@@ -1118,18 +1132,38 @@
     </div>
 
     <div class="about-right reveal reveal-d3">
-      <div class="about-img">
-        <img src="./assets/slide02_img32.png" alt="제작 게임 모음">
-      </div>
-      <div class="about-badge">
-        <p class="about-badge__label">대표작</p>
-        <p class="about-badge__val">파티랏슈!!</p>
-        <p class="about-badge__sub">글로벌 5개국어 · Steam / STOVE</p>
-      </div>
-      <div class="about-badge">
-        <p class="about-badge__label">현재</p>
-        <p class="about-badge__val">BNS PM</p>
-        <p class="about-badge__sub">NC Soft · 2025.12 ~</p>
+      <div class="award-panel">
+        <p class="award-panel__label">수상내역</p>
+        <ul class="award-list">
+          <li class="award-item">
+            <span class="award-year">2020</span>
+            <div>
+              <p class="award-name">한국콘텐츠진흥원장상</p>
+              <p class="award-event">게임문화창작콘텐츠공모전</p>
+            </div>
+          </li>
+          <li class="award-item">
+            <span class="award-year">2021</span>
+            <div>
+              <p class="award-name">한국게임개발자협회장상</p>
+              <p class="award-event">GIGDC 2021</p>
+            </div>
+          </li>
+          <li class="award-item">
+            <span class="award-year">2022</span>
+            <div>
+              <p class="award-name">우수상</p>
+              <p class="award-event">2022년 대전 뉴비 게임개발 공모전</p>
+            </div>
+          </li>
+          <li class="award-item">
+            <span class="award-year">2025</span>
+            <div>
+              <p class="award-name">우수작품상</p>
+              <p class="award-event">한국경제TV</p>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
