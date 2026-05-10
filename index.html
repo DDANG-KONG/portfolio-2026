@@ -355,7 +355,7 @@
     .tl-event--highlight { font-weight: 700; color: var(--primary); }
     .tl-event + .tl-event { margin-top: 4px; }
 
-    /* Sections 02–03: background driven by JS scroll, starts transparent */
+    /* Sections 02–03: transparent so Spline shows through; Spline fades via JS */
     #about, #games { background: transparent; }
     #about .headline--light { color: var(--on-dark); }
     #about .tl-event { color: rgba(255,255,255,.82); }
@@ -557,12 +557,10 @@
     }
     .process-item {
       padding: 22px 28px; display: flex; align-items: center; gap: 20px;
-      text-align: left; border-left: 2px solid transparent; transition: all .2s;
+      text-align: left;
     }
     .process-item--dark  { background: rgba(255,255,255,.03); }
-    .process-item--dark:hover  { background: rgba(255,255,255,.06); border-left-color: var(--primary-dark); }
     .process-item--light { background: rgba(0,0,0,.03); border-radius: 4px; }
-    .process-item--light:hover { background: rgba(0,102,204,.05); border-left-color: var(--primary); }
     .process-n { font-size: 11px; font-weight: 700; letter-spacing: .08em; min-width: 26px; }
     .process-n--dark  { color: var(--primary-dark); }
     .process-n--light { color: var(--primary); }
@@ -624,15 +622,8 @@
     }
     .pillar {
       background: var(--tile-2); padding: 52px 40px; text-align: left;
-      position: relative; overflow: hidden; transition: background .2s;
+      position: relative; overflow: hidden;
     }
-    .pillar::after {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--primary-dark), transparent);
-      opacity: 0; transition: opacity .3s;
-    }
-    .pillar:hover::after { opacity: 1; }
-    .pillar:hover { background: #313133; }
     .pillar__img { width: 44px; height: 44px; object-fit: contain; margin-bottom: 20px; display: block; filter: invert(1) opacity(.65); }
     .pillar__img--lg { width: 72px; height: 72px; margin-bottom: 12px; }
     .pillar__since { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--primary-dark); margin-bottom: 10px; }
@@ -854,7 +845,7 @@
                   box-shadow .2s;
     }
     .pillar {
-      transition: transform .14s cubic-bezier(.22,1,.36,1), background .2s;
+      transition: transform .14s cubic-bezier(.22,1,.36,1);
     }
     .game-card:hover {
       box-shadow: 0 24px 64px rgba(0,0,0,.5), 0 0 0 1px rgba(41,151,255,.12);
@@ -1530,7 +1521,7 @@ document.addEventListener('mousemove', e => {
 })();
 
 /* Hover states */
-const hoverTargets = 'a, button, .pill, .game-card, .pillar, .qr-wrap, .process-item';
+const hoverTargets = 'a, button, .pill, .game-card, .qr-wrap';
 document.querySelectorAll(hoverTargets).forEach(el => {
   el.addEventListener('mouseenter', () => {
     dot.classList.add('hovered');
@@ -1632,36 +1623,23 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
   document.querySelectorAll('section:not(.cover)').forEach(s => sObs.observe(s));
 })();
 
-/* ── Cover → About → Games: scroll-driven Spline fade, each section independent ── */
+/* ── Spline fade: opacity 1→0 linearly as scroll reaches Games section ── */
 (function() {
-  const aboutEl = document.getElementById('about');
-  const gamesEl = document.getElementById('games');
-  const case1El = document.getElementById('case1');
-  if (!aboutEl || !gamesEl || !case1El) return;
+  const splineEl = document.querySelector('.cover__spline');
+  const gamesEl  = document.getElementById('games');
+  if (!splineEl || !gamesEl) return;
 
-  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  let gamesY = gamesEl.getBoundingClientRect().top + window.scrollY;
 
   function update() {
-    const vh   = window.innerHeight;
-    const aTop = aboutEl.getBoundingClientRect().top;
-    const gTop = gamesEl.getBoundingClientRect().top;
-    const cTop = case1El.getBoundingClientRect().top;
-
-    /* About: sandwich gradient — transparent at both edges, dark in the body.
-       Edges fade to 0 so Cover↑ and Games↓ boundaries are seamless. */
-    const aA = (clamp(1 - aTop / vh, 0, 1) * 0.80).toFixed(3);
-    aboutEl.style.background =
-      `linear-gradient(to bottom,rgba(8,8,12,0) 0%,rgba(8,8,12,${aA}) 12%,rgba(8,8,12,${aA}) 88%,rgba(8,8,12,0) 100%)`;
-
-    /* Games: transparent at top (matches About's transparent bottom), darkens inward.
-       Reaches 1.0 as case1 enters to fully seal the Spline. */
-    const gEnter = clamp(1 - gTop / vh, 0, 1) * 0.88;
-    const gExit  = clamp((vh - cTop) / (vh * 0.7), 0, 1) * 0.12;
-    const gA = Math.min(1, gEnter + gExit).toFixed(3);
-    gamesEl.style.background =
-      `linear-gradient(to bottom,rgba(8,8,12,0) 0%,rgba(8,8,12,${gA}) 12%,rgba(8,8,12,${gA}) 100%)`;
+    const progress = Math.max(0, Math.min(1, window.scrollY / gamesY));
+    splineEl.style.opacity = (1 - progress).toFixed(3);
   }
 
+  window.addEventListener('resize', () => {
+    gamesY = gamesEl.getBoundingClientRect().top + window.scrollY;
+    update();
+  }, { passive: true });
   window.addEventListener('scroll', update, { passive: true });
   update();
 })();
@@ -1707,7 +1685,7 @@ window.addEventListener('scroll', updateProgress, { passive: true });
 })();
 
 /* ── 3D Card Tilt ── */
-document.querySelectorAll('.game-card, .pillar').forEach(card => {
+document.querySelectorAll('.game-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r  = card.getBoundingClientRect();
     const x  = ((e.clientX - r.left)  / r.width  - 0.5) * 16;
