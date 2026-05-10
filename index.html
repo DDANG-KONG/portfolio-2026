@@ -264,7 +264,7 @@
     }
     .cover__contacts {
       position: absolute; bottom: 148px; left: 50%;
-      transform: translateX(-50%);
+      translate: -50% 0;   /* individual transform — won't conflict with .reveal's transform */
       z-index: 3;
       display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
       background: rgba(0,0,0,0.55);
@@ -1534,7 +1534,7 @@
      16  CLOSING
 ════════════════════════════════ -->
 <section class="closing" id="closing">
-  <div class="glow glow--blue glow--tl"></div>
+  <div class="glow glow--blue glow--tl" style="top:80px;"></div>
   <div class="glow glow--purple glow--br"></div>
 
   <p class="closing__sub reveal" style="margin-bottom:40px;">창작의 즐거움을 알기에,<br>그 즐거움이 훼손되지 않도록 돕는 역할이<br>중요하다고 생각합니다.</p>
