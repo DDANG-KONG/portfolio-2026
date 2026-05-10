@@ -940,8 +940,7 @@
       transform: translateY(0);
     }
 
-    /* closing은 veil이 전환을 담당 — 섹션 자체 애니메이션 제거 */
-    #closing { opacity: 1 !important; transform: none !important; transition: none !important; }
+
 
     /* Summary → Closing: JS scroll-driven fade handled in script */
 
@@ -1677,7 +1676,7 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
       }
     });
   }, { threshold: 0.06 });
-  document.querySelectorAll('section:not(.cover):not(#closing)').forEach(s => sObs.observe(s));
+  document.querySelectorAll('section:not(.cover)').forEach(s => sObs.observe(s));
 })();
 
 /* ── Spline fade: opacity 1→0 linearly as scroll reaches Games section ── */
@@ -1718,45 +1717,6 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
   update();
 })();
 
-/* ── Summary → Closing: scroll-driven fade-to-black ── */
-(function() {
-  const summaryEl = document.getElementById('summary');
-  const closingEl = document.getElementById('closing');
-  if (!summaryEl || !closingEl) return;
-
-  const veil = document.createElement('div');
-  veil.style.cssText = 'position:fixed;inset:0;background:#000;opacity:0;z-index:899;pointer-events:none;will-change:opacity;';
-  document.body.appendChild(veil);
-
-  let phase2Done = false;
-
-  function update() {
-    const vh     = window.innerHeight;
-    const sumBot = summaryEl.getBoundingClientRect().bottom;
-
-    if (sumBot > 0) {
-      /* Phase 1: 스크롤 비례 어둠 — summary bottom이 vh→0으로 오를수록 veil 짙어짐 */
-      phase2Done = false;
-      veil.style.transition = 'none';
-      const p = Math.max(0, Math.min(1, 1 - sumBot / vh));
-      veil.style.opacity = p.toFixed(3);
-    } else if (!phase2Done) {
-      /* Phase 2: summary 완전히 사라짐 → closing reveal 요소 선제 활성화 후 veil 페이드아웃 */
-      phase2Done = true;
-      closingEl.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
-      veil.style.transition = 'none';
-      veil.style.opacity = '1';
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        veil.style.transition = 'opacity 0.85s cubic-bezier(.22,1,.36,1)';
-        veil.style.opacity = '0';
-      }));
-    }
-  }
-
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
-  update();
-})();
 
 /* ── JS Smooth Scroll (더 안정적인 앵커 이동) ── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
