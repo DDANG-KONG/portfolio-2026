@@ -1723,7 +1723,7 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
     const p  = Math.max(0, Math.min(1, 1 - window.scrollY / (vh * 0.45)));
     targets.forEach(el => { el.style.opacity = p.toFixed(3); });
     if (contactsEl) {
-      const cp = Math.max(0, Math.min(1, 1 - window.scrollY / (vh * 0.25)));
+      const cp = Math.max(0, Math.min(1, 1 - window.scrollY / (vh * 0.12)));
       contactsEl.style.opacity = cp.toFixed(3);
     }
   }
