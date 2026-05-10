@@ -882,6 +882,28 @@
       box-shadow: 0 24px 64px rgba(0,0,0,.5), 0 0 0 1px rgba(41,151,255,.12);
     }
 
+    /* ── Image tilt transitions (site-wide) ── */
+    .shot, .game-banner, .ba-card, .about-img, .about-badge {
+      transition: transform .16s cubic-bezier(.22,1,.36,1), box-shadow .2s;
+      will-change: transform;
+    }
+    .groundrule-img-wide, .partyrush-img-wrap {
+      transition: transform .16s cubic-bezier(.22,1,.36,1);
+      will-change: transform;
+    }
+
+    /* ── Cover text dark backdrop ── */
+    .cover__textbox {
+      position: relative;
+      padding: 44px 64px 40px;
+      background: rgba(0,0,0,0.52);
+      border-radius: 24px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    @media (max-width: 768px) {
+      .cover__textbox { padding: 32px 24px 28px; border-radius: 18px; }
+    }
+
     /* ── Animated gradient sweep on big-number ── */
     @keyframes gradSweep {
       0%   { background-position:   0% 50%; }
@@ -916,14 +938,23 @@
 
     /* ── Section natural scroll transition ── */
     section:not(.cover) {
-      opacity: 0.97;
-      transform: translateY(10px);
-      transition: opacity 0.6s cubic-bezier(.22,1,.36,1),
-                  transform 0.6s cubic-bezier(.22,1,.36,1);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.85s cubic-bezier(.22,1,.36,1),
+                  transform 0.85s cubic-bezier(.22,1,.36,1);
     }
     section:not(.cover).s-in {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* Summary → Closing: gradient blend at section bottom */
+    #summary::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 220px;
+      background: linear-gradient(to bottom, transparent, var(--surface-black));
+      z-index: 1; pointer-events: none;
     }
 
     /* ── Ground Rule: landscape image stacked above ba-grid ── */
@@ -1010,12 +1041,14 @@
   <div class="cover__vignette"></div>
 
   <div class="cover__content" id="coverContent">
-    <p class="cover__kicker reveal">Portfolio 2026</p>
-    <h1 class="cover__name reveal reveal-d1">윤세찬</h1>
-    <p class="cover__tagline reveal reveal-d2">인디게임 제작자에서,<br>PM이 되기까지</p>
-    <div class="cover__contacts reveal reveal-d3">
-      <a href="tel:01022660219">010 – 2266 – 0219</a>
-      <a href="mailto:sechan-baram@naver.com">sechan-baram@naver.com</a>
+    <div class="cover__textbox">
+      <p class="cover__kicker reveal">Portfolio 2026</p>
+      <h1 class="cover__name reveal reveal-d1">윤세찬</h1>
+      <p class="cover__tagline reveal reveal-d2">인디게임 제작자에서,<br>PM이 되기까지</p>
+      <div class="cover__contacts reveal reveal-d3">
+        <a href="tel:01022660219">010 – 2266 – 0219</a>
+        <a href="mailto:sechan-baram@naver.com">sechan-baram@naver.com</a>
+      </div>
     </div>
   </div>
 
@@ -1116,7 +1149,7 @@
      03  MY GAMES
 ════════════════════════════════ -->
 <section id="games">
-  <div class="glow glow--blue" style="width:700px;height:700px;top:0;left:-250px;"></div>
+  <div class="glow glow--blue" style="width:700px;height:700px;top:160px;left:-250px;"></div>
 
   <p class="eyebrow eyebrow--dark reveal">My Games</p>
   <h2 class="headline headline--dark reveal reveal-d1" style="margin-bottom:12px;">10대부터 완성한 게임들</h2>
@@ -1407,7 +1440,7 @@
     </div>
   </div>
 
-  <div class="reveal reveal-d4" style="margin-top:40px;width:100%;max-width:860px;">
+  <div class="reveal reveal-d4 partyrush-img-wrap" style="margin-top:40px;width:100%;max-width:860px;">
     <img src="./assets/partyrush data.png" alt="파티랏슈 데이터" style="width:100%;display:block;">
   </div>
 </section>
@@ -1736,16 +1769,23 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 })();
 
-/* ── 3D Card Tilt ── */
-document.querySelectorAll('.game-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r  = card.getBoundingClientRect();
-    const x  = ((e.clientX - r.left)  / r.width  - 0.5) * 16;
-    const y  = ((e.clientY - r.top)   / r.height - 0.5) * 10;
-    card.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${-y}deg) scale(1.015)`;
-  });
-  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-});
+/* ── 3D Tilt (site-wide images & cards) ── */
+(function() {
+  function applyTilt(selector, ry, rx, sc) {
+    document.querySelectorAll(selector).forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width  - 0.5) * ry;
+        const y = ((e.clientY - r.top)  / r.height - 0.5) * rx;
+        el.style.transform = `perspective(900px) rotateY(${x}deg) rotateX(${-y}deg) scale(${sc})`;
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+  }
+  applyTilt('.game-card', 16, 10, 1.015);
+  applyTilt('.shot, .game-banner, .ba-card, .about-img, .about-badge', 12, 8, 1.02);
+  applyTilt('.groundrule-img-wide, .partyrush-img-wrap', 6, 4, 1.01);
+})();
 
 /* ── Eyebrow Text Scramble ── */
 (function() {
