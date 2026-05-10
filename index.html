@@ -264,6 +264,9 @@
     }
     .cover__contacts {
       display: flex; gap: 28px; justify-content: center; flex-wrap: wrap;
+      background: rgba(0,0,0,0.55);
+      padding: 10px 22px;
+      border-radius: 10px;
     }
     .cover__contacts a {
       font-size: 14px; color: rgba(255,255,255,.50); text-decoration: none;
@@ -831,32 +834,29 @@
 
     /* ── DQ Slime Progress Character ── */
     #slimeProg {
-      position: fixed; top: 16px; left: 0;
+      position: fixed; top: 10px; left: 0;
       z-index: 1000; pointer-events: none; will-change: transform;
     }
     .slime-svg {
       display: block;
-      /* 2-frame pixel-art style squish */
-      animation: dqSquish .55s steps(2, end) infinite alternate,
-                 dqBlink  3.8s ease-in-out infinite;
-      transform-origin: 15px 32px; /* bottom center of 30×34 viewBox */
+      animation: dqSquish .55s steps(2, end) infinite alternate;
+      transform-origin: 20px 24px;
       transform-box: fill-box;
-      filter: drop-shadow(0 3px 8px rgba(32,128,216,.6));
+      filter: drop-shadow(0 2px 5px rgba(32,128,216,.5));
     }
     @keyframes dqSquish {
       0%   { transform: scaleX(1)    scaleY(1); }
       100% { transform: scaleX(1.22) scaleY(0.80); }
     }
     .slime-eye-l, .slime-eye-r {
-      transform-origin: center;
-      transform-box: fill-box;
+      animation: dqBlink 3.8s step-end infinite;
     }
+    .slime-eye-r { animation-delay: .12s; }
     @keyframes dqBlink {
-      0%, 88%, 100% { transform: scaleY(1); }
-      92%           { transform: scaleY(0.08); }
+      0%,  89% { opacity: 1; }
+      90%, 93% { opacity: 0; }
+      94%, 100%{ opacity: 1; }
     }
-    .slime-eye-l { animation: dqBlink 3.8s ease-in-out infinite; }
-    .slime-eye-r { animation: dqBlink 3.8s ease-in-out .05s infinite; }
 
     /* ── Nav active section indicator ── */
     .g-nav__links a { position: relative; }
@@ -890,18 +890,6 @@
     .groundrule-img-wide, .partyrush-img-wrap {
       transition: transform .16s cubic-bezier(.22,1,.36,1);
       will-change: transform;
-    }
-
-    /* ── Cover text dark backdrop ── */
-    .cover__textbox {
-      position: relative;
-      padding: 44px 64px 40px;
-      background: rgba(0,0,0,0.52);
-      border-radius: 24px;
-      display: flex; flex-direction: column; align-items: center;
-    }
-    @media (max-width: 768px) {
-      .cover__textbox { padding: 32px 24px 28px; border-radius: 18px; }
     }
 
     /* ── Animated gradient sweep on big-number ── */
@@ -982,22 +970,25 @@
 <!-- Scroll Progress Bar -->
 <div class="scroll-progress" id="scrollProgress"></div>
 <div id="slimeProg" aria-hidden="true">
-  <svg class="slime-svg" viewBox="0 0 30 34" width="30" height="34" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="sg" cx="35%" cy="28%" r="65%">
-        <stop offset="0%" stop-color="#80d4ff"/>
-        <stop offset="45%" stop-color="#2080d8"/>
-        <stop offset="100%" stop-color="#0f52a0"/>
-      </radialGradient>
-    </defs>
-    <path d="M15,1 C19,0 27,6 27,15 C27,24 22,30 15,30 C8,30 3,24 3,15 C3,6 11,2 15,1 Z" fill="url(#sg)"/>
-    <ellipse cx="10" cy="11" rx="3.5" ry="2" fill="rgba(255,255,255,0.45)" transform="rotate(-25 10 11)"/>
-    <circle class="slime-eye-l" cx="10" cy="19" r="3" fill="#e8f4ff"/>
-    <circle class="slime-eye-l" cx="10.5" cy="19.5" r="1.4" fill="#061020"/>
-    <circle class="slime-eye-r" cx="20" cy="19" r="3" fill="#e8f4ff"/>
-    <circle class="slime-eye-r" cx="20.5" cy="19.5" r="1.4" fill="#061020"/>
-    <path d="M10,24 Q15,28 20,24" stroke="#061020" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <ellipse cx="15" cy="29.5" rx="2.5" ry="1.5" fill="#1060b0" opacity=".8"/>
+  <svg class="slime-svg" viewBox="0 0 40 24" width="40" height="24" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+    <rect x="12" y="0"  width="16" height="4" fill="#2080d8"/>
+    <rect x="4"  y="4"  width="32" height="4" fill="#2080d8"/>
+    <rect x="0"  y="8"  width="8"  height="4" fill="#2080d8"/>
+    <rect x="16" y="8"  width="8"  height="4" fill="#2080d8"/>
+    <rect x="32" y="8"  width="8"  height="4" fill="#2080d8"/>
+    <rect x="0"  y="12" width="8"  height="4" fill="#2080d8"/>
+    <rect x="16" y="12" width="8"  height="4" fill="#2080d8"/>
+    <rect x="32" y="12" width="8"  height="4" fill="#2080d8"/>
+    <rect x="4"  y="16" width="32" height="4" fill="#2080d8"/>
+    <rect x="8"  y="20" width="24" height="4" fill="#1060b0"/>
+    <g class="slime-eye-l">
+      <rect x="8"  y="8" width="8" height="8" fill="#061020"/>
+      <rect x="8"  y="8" width="4" height="4" fill="#e8f4ff"/>
+    </g>
+    <g class="slime-eye-r">
+      <rect x="24" y="8" width="8" height="8" fill="#061020"/>
+      <rect x="24" y="8" width="4" height="4" fill="#e8f4ff"/>
+    </g>
   </svg>
 </div>
 
@@ -1041,14 +1032,12 @@
   <div class="cover__vignette"></div>
 
   <div class="cover__content" id="coverContent">
-    <div class="cover__textbox">
-      <p class="cover__kicker reveal">Portfolio 2026</p>
-      <h1 class="cover__name reveal reveal-d1">윤세찬</h1>
-      <p class="cover__tagline reveal reveal-d2">인디게임 제작자에서,<br>PM이 되기까지</p>
-      <div class="cover__contacts reveal reveal-d3">
-        <a href="tel:01022660219">010 – 2266 – 0219</a>
-        <a href="mailto:sechan-baram@naver.com">sechan-baram@naver.com</a>
-      </div>
+    <p class="cover__kicker reveal">Portfolio 2026</p>
+    <h1 class="cover__name reveal reveal-d1">윤세찬</h1>
+    <p class="cover__tagline reveal reveal-d2">인디게임 제작자에서,<br>PM이 되기까지</p>
+    <div class="cover__contacts reveal reveal-d3">
+      <a href="tel:01022660219">010 – 2266 – 0219</a>
+      <a href="mailto:sechan-baram@naver.com">sechan-baram@naver.com</a>
     </div>
   </div>
 
@@ -1738,7 +1727,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 (function() {
   const progressBar = document.getElementById('scrollProgress');
   const slimeEl     = document.getElementById('slimeProg');
-  const SLIME_W = 30;
+  const SLIME_W = 40;
   function update() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const p   = max > 0 ? Math.max(0, Math.min(1, window.scrollY / max)) : 0;
