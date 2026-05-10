@@ -1673,6 +1673,26 @@ document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el
   document.querySelectorAll('section:not(.cover)').forEach(s => sObs.observe(s));
 })();
 
+/* ── Cover text fade: 스크롤에 비례해 문구·연락처 투명화 ── */
+(function() {
+  const targets = [
+    document.getElementById('coverContent'),
+    document.querySelector('.cover__contacts'),
+    document.getElementById('coverScroll'),
+  ].filter(Boolean);
+  if (!targets.length) return;
+
+  function update() {
+    /* vh * 0.45 지점에서 완전히 사라짐 */
+    const p = Math.max(0, Math.min(1, 1 - window.scrollY / (window.innerHeight * 0.45)));
+    targets.forEach(el => { el.style.opacity = p.toFixed(3); });
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+})();
+
 /* ── Spline fade: opacity 1→0 linearly as scroll reaches Games section ── */
 (function() {
   const splineEl = document.querySelector('.cover__spline');
