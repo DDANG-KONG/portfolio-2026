@@ -955,20 +955,17 @@
 
     /* ── Tool Logo Badge ── */
     .tool-badge-row {
-      display: flex; gap: 16px; justify-content: center; align-items: center;
+      display: flex; gap: 32px; justify-content: center; align-items: center;
       margin-top: 36px;
     }
     .tool-badge {
-      display: flex; align-items: center; gap: 10px;
-      background: rgba(0,0,0,.05); border: 1px solid rgba(0,0,0,.08);
-      border-radius: 100px; padding: 8px 18px 8px 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
     }
     .tool-badge img, .tool-badge svg {
-      width: 28px; height: 28px; object-fit: contain; flex-shrink: 0;
+      width: 60px; height: 60px; object-fit: contain; flex-shrink: 0;
     }
-    .tool-badge svg path { fill: #D97757; }
     .tool-badge__label {
-      font-size: 13px; font-weight: 600; color: var(--ink-80); letter-spacing: -.2px;
+      font-size: 13px; font-weight: 600; color: var(--ink-48); letter-spacing: -.15px;
     }
 
     /* ── Jira Card News ── */
@@ -1465,12 +1462,26 @@
 
   <div class="tool-badge-row reveal reveal-d2">
     <div class="tool-badge">
-      <img src="./assets/Jira Logo.png" alt="Jira">
+      <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+          <linearGradient x1="98.031%" y1="0.161%" x2="58.888%" y2="40.766%" id="jira-lg1">
+            <stop stop-color="#0052CC" offset="18%"/>
+            <stop stop-color="#2684FF" offset="100%"/>
+          </linearGradient>
+          <linearGradient x1="100.665%" y1="0.455%" x2="55.402%" y2="44.727%" id="jira-lg2">
+            <stop stop-color="#0052CC" offset="18%"/>
+            <stop stop-color="#2684FF" offset="100%"/>
+          </linearGradient>
+        </defs>
+        <path d="M244.658,0 L121.707,0 C121.707,14.72 127.554,28.837 137.963,39.246 C148.372,49.655 162.489,55.502 177.209,55.502 L199.858,55.502 L199.858,77.369 C199.877,107.994 224.699,132.816 255.324,132.836 L255.324,10.667 C255.324,4.776 250.549,0 244.658,0 Z" fill="#2684FF"/>
+        <path d="M183.822,61.262 L60.871,61.262 C60.891,91.887 85.713,116.709 116.338,116.729 L138.987,116.729 L138.987,138.667 C139.026,169.292 163.864,194.098 194.489,194.098 L194.489,71.929 C194.489,66.038 189.713,61.262 183.822,61.262 Z" fill="url(#jira-lg1)"/>
+        <path d="M122.951,122.489 L0,122.489 C0,153.142 24.849,177.991 55.502,177.991 L78.222,177.991 L78.222,199.858 C78.242,230.455 103.020,255.266 133.618,255.324 L133.618,133.156 C133.618,127.265 128.842,122.489 122.951,122.489 Z" fill="url(#jira-lg2)"/>
+      </svg>
       <span class="tool-badge__label">Jira</span>
     </div>
   </div>
 
-  <p class="body body--light reveal reveal-d3" style="text-align:center;margin-top:28px;">수정버전·시작일·종료일 기준으로 규칙 위반 티켓을 탐지·대시보드화하여 관리 가시성을 확보하고,<br>수정 품이 적은 JQL 쿼리로 그라운드 룰 기반 관리 체계를 구축했습니다.</p>
+  <p class="body body--light reveal reveal-d3" style="text-align:center;margin-top:28px;">수정버전·시작일·종료일 기준으로 규칙 위반 티켓을 탐지·분류하고,<br>수정 품이 적은 JQL 쿼리로 그라운드 룰 기반 관리 체계를 구축했습니다.</p>
 
   <div class="jira-cards reveal reveal-d4">
 
@@ -1519,7 +1530,7 @@
   <p class="case-num reveal reveal-d1">#2</p>
   <p class="case-eyebrow reveal reveal-d2">Case Study</p>
   <h2 class="case-title reveal reveal-d3">1인 제작 게임<br>'파티랏슈!!' 글로벌 런칭</h2>
-  <p class="case-sub reveal reveal-d4">21살, 해외 퍼블리셔와의 글로벌 런칭 준비가 전환점이 되었습니다.<br>'효율적이고 리스크를 예방하는 프로세스'에 대한 고민을 처음으로 시작하게 된 이야기.</p>
+  <p class="case-sub reveal reveal-d4">21살, 해외 퍼블리셔와의 글로벌 런칭 준비가 전환점이 되었습니다.<br>'효율적이고 리스크를 예방하는 프로세스'에 대한 고민을 처음으로 시작하게 된 이야기입니다.</p>
 </section>
 
 <!-- ════════════════════════════════
