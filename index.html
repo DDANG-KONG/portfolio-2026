@@ -264,7 +264,12 @@
     }
 
     /* Text sits above Spline; pointer-events:none lets mouse reach the iframe */
+    /* 데스크탑: Spline 자체에 타이포가 있으므로 HTML 텍스트는 숨김.
+       모바일: Spline을 숨기는 대신(아래 미디어쿼리) 이 HTML 텍스트를 표시. */
     .cover__content {
+      display: none;
+    }
+    .cover__content--show {
       position: relative; z-index: 2;
       display: flex; flex-direction: column;
       align-items: center; text-align: center;
@@ -831,7 +836,6 @@
       .cursor-dot, .cursor-ring { display: none; }
 
       section { padding: 110px 22px 100px; }
-      .cover__content { padding: 110px 22px 80px; pointer-events: auto; }
 
       /* Nav */
       .g-nav { padding: 0 18px; }
@@ -843,6 +847,14 @@
       .cover__spline { display: none; }
       .cover { background: radial-gradient(ellipse 130% 100% at 30% 35%, #0c1e3a 0%, #060810 55%, #000 100%); }
       .cover__vignette { display: none; }
+      /* 모바일엔 Spline이 없으므로 HTML 텍스트를 다시 표시 */
+      .cover__content {
+        display: flex; flex-direction: column;
+        align-items: center; text-align: center;
+        position: relative; z-index: 2;
+        padding: 110px 22px 80px;
+        pointer-events: auto;
+      }
 
       /* About: center-align on mobile for better readability */
       .about-section { align-items: center; text-align: center; }
