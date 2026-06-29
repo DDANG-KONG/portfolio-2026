@@ -24,7 +24,7 @@
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: clip; }
 
     body {
       font-family: 'Apple SD Gothic Neo', 'AppleSDGothicNeo', 'Noto Sans KR',
@@ -92,8 +92,7 @@
       display: flex; flex-direction: column;
       justify-content: center; align-items: center;
       padding: 200px 48px 180px;
-      text-align: center; position: relative; overflow-x: clip; overflow-y: visible;
-      contain: paint;
+      text-align: center; position: relative; overflow: visible;
     }
     /* Prevent horizontal scroll from glows that extend beyond section edges */
     body { overflow-x: clip; }
